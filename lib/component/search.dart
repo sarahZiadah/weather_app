@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:weather_app/services/weather_service.dart';
 
 class Search extends StatelessWidget {
   Search();
@@ -23,9 +24,12 @@ class Search extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.only(bottom: 5.5),
               child: TextField(
+                onChanged: (data){
+                  cityName=data;
+                },
                 onSubmitted: (data){
                   cityName=data;
-                  print(data);
+                  WeatherService.getWeather(cityName:cityName!);
                 },
                 decoration: InputDecoration(
                   enabledBorder: InputBorder.none,
@@ -45,7 +49,9 @@ class Search extends StatelessWidget {
         CircleAvatar(
           backgroundColor: Colors.white,
           child: IconButton(
-            onPressed: () {},
+            onPressed: () {
+              WeatherService.getWeather(cityName:cityName!);
+            },
             icon: Icon(Icons.search, color: Color(0xff8C8B8B)),
             
           ),
