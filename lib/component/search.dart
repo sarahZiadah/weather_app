@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:weather_app/models/weather_model.dart';
+import 'package:weather_app/providers/weather_provider.dart';
 import 'package:weather_app/services/weather_service.dart';
 
 WeatherModel? weather;
 class Search extends StatelessWidget {
-   Function(WeatherModel)? onSearch;
-  Search({super.key, this.onSearch});
+  Search({super.key});
 
   String? cityName;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(left: 30,right:30, top: 78,bottom: 35),
+      padding: EdgeInsets.only(left: 30, right: 30, top: 78, bottom: 35),
       child: Row(
         children: [
           Container(
@@ -38,13 +39,15 @@ class Search extends StatelessWidget {
                   onChanged: (data) {
                     cityName = data;
                   },
-                  onSubmitted: (data)async {
+                  onSubmitted: (data) async {
                     cityName = data;
-                    weather=await WeatherService.getWeather(cityName: cityName!);
-                    // Navigator.push(context, MaterialPageRoute(builder: (context){
-                    //   return WeatherPage();
-                    // }));
-                    onSearch!(weather!);
+                    weather = await WeatherService.getWeather(
+                      cityName: cityName!,
+                    );
+                    Provider.of<WeatherProvider?>(
+                      context,
+                      listen: false,
+                    )?.setWeather(weather);
                   },
                   decoration: InputDecoration(
                     enabledBorder: InputBorder.none,
@@ -61,7 +64,7 @@ class Search extends StatelessWidget {
               ),
             ),
           ),
-          SizedBox(width: 28,),
+          SizedBox(width: 28),
           Container(
             decoration: BoxDecoration(
               boxShadow: [
@@ -69,17 +72,20 @@ class Search extends StatelessWidget {
                   color: const Color.fromARGB(108, 0, 0, 0),
                   offset: Offset(0, 5),
                   blurRadius: 15,
-                ),]
+                ),
+              ],
             ),
             child: CircleAvatar(
               backgroundColor: Colors.white,
               child: IconButton(
-                onPressed: () async{
-                 weather= await WeatherService.getWeather(cityName: cityName!);
-                //  Navigator.push(context, MaterialPageRoute(builder: (context){
-                //       return WeatherPage();
-                //     }));
-                onSearch!(weather!);
+                onPressed: () async {
+                  weather = await WeatherService.getWeather(
+                    cityName: cityName!,
+                  );
+                  Provider.of<WeatherProvider?>(
+                    context,
+                    listen: false,
+                  )?.setWeather(weather);
                 },
                 icon: Icon(Icons.search, color: Color(0xff8C8B8B)),
               ),
@@ -90,5 +96,3 @@ class Search extends StatelessWidget {
     );
   }
 }
-
-

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:weather_app/models/weather_model.dart';
+import 'package:provider/provider.dart';
 import 'package:weather_app/pages/nothing_page.dart';
 import 'package:weather_app/pages/weather_page.dart';
+import 'package:weather_app/providers/weather_provider.dart';
+
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -10,18 +12,15 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  
-  WeatherModel? weather;
-
-  void updateWeather(WeatherModel newWeather) {
-    setState(() {
-      weather = newWeather;
-    });
+  void updateWeather() {
+    setState(() {});
   }
-  
+
   @override
   Widget build(BuildContext context) {
-    return weather==null ? NothingPage(onSearch: updateWeather)
-    : WeatherPage();
+    return Provider.of<WeatherProvider?>(context, listen: true)?.getWeather() ==
+            null
+        ? NothingPage()
+        : WeatherPage();
   }
 }

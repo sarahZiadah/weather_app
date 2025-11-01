@@ -1,26 +1,33 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:weather_app/component/search.dart';
+import 'package:weather_app/models/theme_model.dart';
+import 'package:weather_app/models/weather_model.dart';
+import 'package:weather_app/providers/weather_provider.dart';
 
 class WeatherPage extends StatelessWidget {
   const WeatherPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    WeatherModel? weather = Provider.of<WeatherProvider>(context).getWeather();
+    ThemeModel? theme=weather!.getTheme();
     return Scaffold(
-      backgroundColor: Color(0xff4C9BFF),
-      body: Column(
+      backgroundColor: theme!.color,
+      body: ListView(
         children: [
           Search(),
           Text(
-            "Darayya , Syria",
+            "${weather.name} , ${weather.country}",
             style: TextStyle(
               fontFamily: "Poppins",
               fontSize: 32,
               color: Colors.white,
             ),
+            textAlign: TextAlign.center,
           ),
           Image.asset(
-            'assets/images/icons8-sun-100.png',
+            theme.image,
             fit: BoxFit.contain,
             height: 188,
           ),
@@ -28,7 +35,7 @@ class WeatherPage extends StatelessWidget {
             text: TextSpan(
               children: [
                 TextSpan(
-                  text: '12',
+                  text: '${weather.avgtemp}',
                   style: TextStyle(
                     fontSize: 36,
                     fontWeight: FontWeight.w600,
@@ -55,52 +62,54 @@ class WeatherPage extends StatelessWidget {
                 ),
               ],
             ),
+            textAlign: TextAlign.center,
           ),
           Text(
-            "clear 27°/9°",
+            "${weather.condition} ${weather.maxtemp}°/${weather.minTemp}°",
             style: TextStyle(
               fontFamily: "Poppins",
               fontSize: 24,
               color: const Color.fromARGB(204, 255, 255, 255),
             ),
+            textAlign: TextAlign.center,
           ),
           Padding(
-            padding: const EdgeInsets.only(top:15.0),
+            padding: const EdgeInsets.only(top: 15.0),
             child: Row(
               children: [
-                Spacer(flex: 1,),
+                Spacer(flex: 1),
                 info(
                   'Real Feel',
-                  '22°',
+                  '${weather.feelslike}°',
                   'assets/images/icons8-thermometer-100.png',
                 ),
-                Spacer(flex: 1,),
+                Spacer(flex: 1),
                 info(
                   'Humidity',
-                  '28%',
+                  '${weather.humidity}%',
                   'assets/images/icons8-humidity-100.png',
                 ),
-                Spacer(flex: 1,),
+                Spacer(flex: 1),
               ],
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(top:15.0),
+            padding: const EdgeInsets.only(top: 15.0),
             child: Row(
               children: [
-                Spacer(flex: 1,),
+                Spacer(flex: 1),
                 info(
                   'Sunrise',
-                  '06:46',
+                  weather.sunrise,
                   'assets/images/icons8-sunrise-100.png',
                 ),
-                Spacer(flex: 1,),
+                Spacer(flex: 1),
                 info(
                   'Pressure',
-                  '1016',
+                  "${weather.pressure}",
                   'assets/images/icons8-pressure-gauge-100.png',
                 ),
-                Spacer(flex: 1,),
+                Spacer(flex: 1),
               ],
             ),
           ),

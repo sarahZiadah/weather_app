@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:weather_app/component/search.dart';
-import 'package:weather_app/models/weather_model.dart';
 
 class NothingPage extends StatefulWidget {
-  final Function(WeatherModel) onSearch; 
-  const NothingPage({super.key, required this.onSearch});
-  
+  const NothingPage({super.key});
+
   @override
   State<NothingPage> createState() => _NothingPageState();
 }
@@ -64,7 +62,7 @@ class _NothingPageState extends State<NothingPage> {
               opacity: showSearch ? 1 : 0,
               child: Container(
                 margin: const EdgeInsets.only(top: 20),
-                child: Search(onSearch: widget.onSearch),
+                child: Search(),
               ),
             ),
           ),
