@@ -5,6 +5,7 @@ import 'package:weather_app/providers/weather_provider.dart';
 import 'package:weather_app/services/weather_service.dart';
 
 WeatherModel? weather;
+
 class Search extends StatelessWidget {
   Search({super.key});
 
@@ -40,14 +41,15 @@ class Search extends StatelessWidget {
                     cityName = data;
                   },
                   onSubmitted: (data) async {
-                    cityName = data;
-                    weather = await WeatherService.getWeather(
-                      cityName: cityName!,
-                    );
-                    Provider.of<WeatherProvider?>(
-                      context,
-                      listen: false,
-                    )?.setWeather(weather);
+                      cityName = data;
+                      weather = await WeatherService.getWeather(
+                        cityName: cityName!,
+                      );
+                      Provider.of<WeatherProvider?>(
+                        context,
+                        listen: false,
+                      )?.setWeather(weather);
+                    
                   },
                   decoration: InputDecoration(
                     enabledBorder: InputBorder.none,
@@ -79,13 +81,13 @@ class Search extends StatelessWidget {
               backgroundColor: Colors.white,
               child: IconButton(
                 onPressed: () async {
-                  weather = await WeatherService.getWeather(
-                    cityName: cityName!,
-                  );
-                  Provider.of<WeatherProvider?>(
-                    context,
-                    listen: false,
-                  )?.setWeather(weather);
+                    weather = await WeatherService.getWeather(
+                      cityName: cityName!,
+                    );
+                    Provider.of<WeatherProvider?>(
+                      context,
+                      listen: false,
+                    )?.setWeather(weather);
                 },
                 icon: Icon(Icons.search, color: Color(0xff8C8B8B)),
               ),

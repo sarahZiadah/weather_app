@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:weather_app/component/search.dart';
 import 'package:weather_app/models/theme_model.dart';
 import 'package:weather_app/models/weather_model.dart';
+import 'package:weather_app/pages/nothing_page.dart';
 import 'package:weather_app/providers/weather_provider.dart';
 
 class WeatherPage extends StatelessWidget {
@@ -12,7 +13,7 @@ class WeatherPage extends StatelessWidget {
   Widget build(BuildContext context) {
     WeatherModel? weather = Provider.of<WeatherProvider>(context).getWeather();
     ThemeModel? theme=weather!.getTheme();
-    return Scaffold(
+    return weather.name!="Unknown"? Scaffold(
       backgroundColor: theme!.color,
       body: ListView(
         children: [
@@ -35,7 +36,7 @@ class WeatherPage extends StatelessWidget {
             text: TextSpan(
               children: [
                 TextSpan(
-                  text: '${weather.avgtemp}',
+                  text: '${weather.avgtemp.toInt()}',
                   style: TextStyle(
                     fontSize: 36,
                     fontWeight: FontWeight.w600,
@@ -65,7 +66,7 @@ class WeatherPage extends StatelessWidget {
             textAlign: TextAlign.center,
           ),
           Text(
-            "${weather.condition} ${weather.maxtemp}°/${weather.minTemp}°",
+            "${weather.condition} ${weather.maxtemp.toInt()}°/${weather.minTemp.toInt()}°",
             style: TextStyle(
               fontFamily: "Poppins",
               fontSize: 24,
@@ -80,7 +81,7 @@ class WeatherPage extends StatelessWidget {
                 Spacer(flex: 1),
                 info(
                   'Real Feel',
-                  '${weather.feelslike}°',
+                  '${weather.feelslike.toInt()}°',
                   'assets/images/icons8-thermometer-100.png',
                 ),
                 Spacer(flex: 1),
@@ -106,7 +107,7 @@ class WeatherPage extends StatelessWidget {
                 Spacer(flex: 1),
                 info(
                   'Pressure',
-                  "${weather.pressure}",
+                  "${weather.pressure.toInt()}",
                   'assets/images/icons8-pressure-gauge-100.png',
                 ),
                 Spacer(flex: 1),
@@ -115,7 +116,7 @@ class WeatherPage extends StatelessWidget {
           ),
         ],
       ),
-    );
+    ):NothingPage();
   }
 
   Widget info(String name, String condition, String image) {

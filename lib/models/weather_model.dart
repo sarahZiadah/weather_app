@@ -28,20 +28,35 @@ class WeatherModel {
   });
 
   factory WeatherModel.fromJson(dynamic data) {
-    var jsonData = data['forecast']['forecastday'][0];
-
-    return WeatherModel(
-      name: data['location']['name'],
-      country: data['location']['country'],
-      condition: data['current']['condition']['text'],
-      avgtemp: jsonData['day']['avgtemp_c'],
-      minTemp: jsonData['day']['mintemp_c'],
-      maxtemp: jsonData['day']['maxtemp_c'],
-      pressure: jsonData['hour'][0]['pressure_mb'],
-      humidity: jsonData['hour'][0]['humidity'],
-      sunrise: data['forecast']['forecastday'][1]['astro']['sunrise'],
-      feelslike: data['current']['feelslike_c'],
-    );
+    try {
+  var jsonData = data['forecast']['forecastday'][0];
+  
+  return WeatherModel(
+    name: data['location']['name'],
+    country: data['location']['country'],
+    condition: data['current']['condition']['text'],
+    avgtemp: jsonData['day']['avgtemp_c'],
+    minTemp: jsonData['day']['mintemp_c'],
+    maxtemp: jsonData['day']['maxtemp_c'],
+    pressure: jsonData['hour'][0]['pressure_mb'],
+    humidity: jsonData['hour'][0]['humidity'],
+    sunrise: data['forecast']['forecastday'][1]['astro']['sunrise'],
+    feelslike: data['current']['feelslike_c'],
+  );
+}  catch (e) {
+  return WeatherModel(
+    name: "Unknown",
+    country: "Unknown",
+    condition: "Unknown",
+    avgtemp: 0,
+    minTemp: 0,
+    maxtemp: 0,
+    pressure: 0,
+    humidity: 0,
+    sunrise: "Unknown",
+    feelslike: 0,
+  );
+}
   }
 
   ThemeModel? getTheme() {
